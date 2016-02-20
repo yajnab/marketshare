@@ -33,12 +33,12 @@ public static void main( String[] args ) throws IOException{
             File file = new File("./output/"+date);
             if(file.isDirectory()){
             csvcreate();
-                
             }else{File outp = new File("./output");
                 if(outp.isDirectory()){
                     File dir = new File("./output/"+date);
                     dir.mkdir();
-                    csvcreate();}
+                    csvcreate();
+                }
                 else{
                     outp.mkdir();
                     File dir = new File("./output/"+date);
@@ -54,8 +54,10 @@ public static void main( String[] args ) throws IOException{
 public static void csvcreate() throws IOException{
         File input = new File("web.html");
 	Document doc = Jsoup.parse(input, "UTF-8", "http://example.com/");
+        File file = new File("./output/"+date);
+        String fname = Integer.toString(file.listFiles().length +1);
     try {
-		FileWriter writer = new FileWriter("./output/"+date+"/dataout.csv");
+		FileWriter writer = new FileWriter("./output/"+date+"/"+fname+".csv");
 	
 		for (Element table : doc.select("table.yfi_portfolios_multiquote")) {
 			for (Element row : table.select("tr")) {
