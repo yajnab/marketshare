@@ -22,20 +22,40 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 class Marketshare {
-
+static String date = (new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime())).toString();
 public static void main( String[] args ) throws IOException{  
 	
-	File input = new File("web.html");
-	Document doc = Jsoup.parse(input, "UTF-8", "http://example.com/");
+	
 	//Document doc = Jsoup.parse(input);
 	int count;
         try{
-            String date = (new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime())).toString();
-            File file = new File("./"+date);
-            if(file.isDirectory()){/*Code goes here*/}else{/*Fail code for diretory making"*/}
             
-                /*try {
-		FileWriter writer = new FileWriter("dataout.csv");
+            File file = new File("./output/"+date);
+            if(file.isDirectory()){
+            csvcreate();
+                
+            }else{File outp = new File("./output");
+                if(outp.isDirectory()){
+                    File dir = new File("./output/"+date);
+                    dir.mkdir();
+                    csvcreate();}
+                else{
+                    outp.mkdir();
+                    File dir = new File("./output/"+date);
+                    dir.mkdir();
+                    csvcreate();
+                }
+            }
+        }
+        catch(Exception e){}
+        //    String title = doc.title();  
+        //    System.out.println("title is: " + title);  
+}
+public static void csvcreate() throws IOException{
+        File input = new File("web.html");
+	Document doc = Jsoup.parse(input, "UTF-8", "http://example.com/");
+    try {
+		FileWriter writer = new FileWriter("./output/"+date+"/dataout.csv");
 	
 		for (Element table : doc.select("table.yfi_portfolios_multiquote")) {
 			for (Element row : table.select("tr")) {
@@ -55,11 +75,7 @@ public static void main( String[] args ) throws IOException{
 		}
 	} catch (IOException e) {
 		e.getStackTrace();
-	}*/
-        }
-        catch(Exception e){}
-        //    String title = doc.title();  
-        //    System.out.println("title is: " + title);  
-}  
+	}
+}
 }
 
