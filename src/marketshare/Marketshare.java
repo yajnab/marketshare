@@ -31,14 +31,8 @@ public static void main( String[] args ) throws IOException{
 	int count;
         try{
             String date = (new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime())).toString();
-            File file = new File("./");
-            String[] dir = file.list();
-            count =0;
-            for(String name : dir ){
-                if( (new File("./"+name).isDirectory()) && (name.toString().equals(date))){count=1;}
-                if(count==1){break;}
-            }
-            
+            File file = new File("./"+date);
+            if(file.isDirectory()){/*Code goes here*/}else{/*Fail code for diretory making"*/}
             
                 /*try {
 		FileWriter writer = new FileWriter("dataout.csv");
