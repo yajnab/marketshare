@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -56,7 +56,7 @@ static String date = (new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInst
         final  HtmlInput password = currentPage.getElementByName("passwd"); //Find element called loginpassword for password
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String uPwd = br.readLine();
-        password.setValueAttribute(uPwd); //Set value for password   
+        password.setValueAttribute(uPwd); //Set value for password  
         WebResponse response1 = currentPage.getWebResponse();
         String content2 = response1.getContentAsString();    
         final HtmlPage page2; 
@@ -81,18 +81,21 @@ static String date = (new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInst
               // System.out.println(content);
           
             File file = new File("./output/"+date);
-            if(file.isDirectory()){
+            File file_s = new File("./output/ishare/"+date);
+            if(file.isDirectory() && (file_s.isDirectory())){
              createcsv(content);
             }else{File outp = new File("./output");
                 if(outp.isDirectory()){
                     File dir = new File("./output/"+date);
-                    dir.mkdir();
+                    File dir1 = new File("./output/ishare/"+date);
+                    dir.mkdir();dir1.mkdirs();
                     createcsv(content);
                 }
                 else{
                     outp.mkdir();
                     File dir = new File("./output/"+date);
-                    dir.mkdir();
+                    File dir1 = new File("./output/ishare/"+date);
+                    dir.mkdir();dir1.mkdirs();
                      createcsv(content);
                 }
             }
@@ -115,7 +118,7 @@ static String date = (new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInst
 	//Document doc = Jsoup.parse(input, "UTF-8", "http://example.com/");
           Document doc = Jsoup.parse(content);
         File file = new File("./output/"+date);
-        String fname = Integer.toString(file.listFiles().length +1);
+        String fname =  Long.toString(file.listFiles().length +1);
           
          
 	//Document doc = Jsoup.parse(input);
@@ -130,17 +133,58 @@ static String date = (new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInst
 					for ( Element cellh : ths){
 						writer.write(cellh.text().replace(",","").concat(","));
 					}
-				}
+				}String sname="";
+                                int col=0;
 				for ( Element cell : tds){
 					writer.write(cell.text().replace(",","").concat(","));
+                                        col++;
+                                        //FileWriter writer2 = new FileWriter("./output/ishare/"+date+"/"+sname+".csv");
+                                        try{
+                                            if(col==1){
+                                            FileWriter writer1 = new FileWriter("./output/ishare/"+date+"/"+cell.text()+".csv");
+                                            File fch = new File("./output/ishare/"+date+"/"+cell.text()+".csv");
+                                            sname = cell.text();
+                                            System.out.println(sname);
+                                            if(!fch.exists()){
+                                                fch.createNewFile();
+                                                //writer1.write(cell.text().replace(",","").concat(","));
+                                            }                                          
+                                            }
+                                            else{
+                                               try{
+                                                   String path="./output/ishare/"+date+"/"+sname+".csv";
+                                                FileWriter writer2 = new FileWriter(path,true);
+                                               System.out.println("else");
+                                               System.out.println(sname);
+                                               System.out.println(cell.text());
+                                               writer2.append(cell.text().replace(",","").concat(","));
+                                               writer2.close();
+                                               }
+                                               catch(Exception e)
+                                               {
+                                                 System.out.println(e);  
+                                               }
+                                            }//writer2.write("\n");
+                                            
+                                        }
+                                        catch(Exception e){
+                                            System.out.println(e);
+                                        }
+                                 
 				}
 				writer.write("\n");
+                               // writer2.close();
 			}
 			writer.close();
-		}
-	} catch (IOException e) {
+                        
+		}}
+	 catch (IOException e) {
 		e.getStackTrace();
-	}
+                 }
+        catch(Exception e){
+            System.out.println(e);
+          
+        }
           
           
       }
