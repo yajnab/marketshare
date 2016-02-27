@@ -29,10 +29,31 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.jsoup.Connection;
 class Marketshare {
+    
+    Connection con;
+    public Marketshare() throws ClassNotFoundException{
+        try {
+            initDatabase();
+        } catch (SQLException ex) {
+            Logger.getLogger(Marketshare.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public final void initDatabase() throws ClassNotFoundException, SQLException{
+        try{
+          Class.forName("com.mysql.jdbc.Driver");
+          con =(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/yajnab?zeroDateTimeBehavior=convertToNull","yajnab","petrol123");           
+        }
+        catch(ClassNotFoundException | SQLException e){System.out.println(e);}
+    }
 static String date = (new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime())).toString();
     public static void main(String[] args) throws Exception {
         
