@@ -18,7 +18,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;  
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 //jsoup lib
 import org.jsoup.Jsoup;  
 import org.jsoup.nodes.Document;
@@ -31,42 +30,31 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.jsoup.Connection;
-class Marketshare {
+
+
+public class Marketshare {
     
-    Connection con;
-    public Marketshare() throws ClassNotFoundException{
-        try {
-            initDatabase();
-        } catch (SQLException ex) {
-            Logger.getLogger(Marketshare.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    Connection con =null;
+    static String date = (new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime()));
+    public Marketshare()throws SQLException{        
+            initDatabase();        
     }
-    public final void initDatabase() throws ClassNotFoundException, SQLException{
+    public final void initDatabase() throws SQLException{
         try{
           Class.forName("com.mysql.jdbc.Driver");
-          con =(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/yajnab?zeroDateTimeBehavior=convertToNull","yajnab","petrol123");           
+          con =(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/marketshare?zeroDateTimeBehavior=convertToNull","yajnab","petrol123");           
         }
         catch(ClassNotFoundException | SQLException e){System.out.println(e);}
     }
-static String date = (new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime())).toString();
-    public static void main(String[] args) throws Exception {
-        
-               WebClient webClient = new WebClient(BrowserVersion.FIREFOX_38); //Initiate a WebClient variable.  
-               webClient = tremorLogin(webClient);
-                  GenFile(webClient);
-             
-        
-    }
     //Login into Yahoo and return the client(Saves the cookies).
-      private static WebClient tremorLogin(WebClient webClient) throws Exception
+      private WebClient tremorLogin(WebClient webClient) throws Exception
     {
-        webClient.getOptions().setJavaScriptEnabled(false); int netflag=1;   
+        webClient.getOptions().setJavaScriptEnabled(false); int netflag=1; 
         try{
         final HtmlPage currentPage = webClient.getPage("https://login.yahoo.com/");}
         catch(Exception e){netflag=0;
@@ -89,9 +77,9 @@ static String date = (new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInst
     return webClient;
     }
       
-      private static void GenFile(WebClient webClient) throws IOException
+      public void GenFile(WebClient webClient) throws IOException, SQLException
       {
-              try {
+        try {
         while (true) {
             System.out.println(new Date());
             Thread.sleep(1000);
@@ -129,19 +117,22 @@ static String date = (new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInst
            
       }
       
-      public static void createcsv(String content) throws IOException
-      {
-          
-          
-          
-         // the code for csv file creation goes here... 
+      public final void createcsv(String content)
+      {Statement stmt= null;
+        try{
+            stmt = con.createStatement();
+            
+        }catch(Exception e){}
+         //the code for csv file creation goes here... 
           //File input = new File("web.html");
          // File input = (File) content;
 	//Document doc = Jsoup.parse(input, "UTF-8", "http://example.com/");
           Document doc = Jsoup.parse(content);
         File file = new File("./output/"+date);
         String fname =  Long.toString(file.listFiles().length +1);
-          
+        
+        
+        
          
 	//Document doc = Jsoup.parse(input);
 	try {
@@ -166,7 +157,19 @@ static String date = (new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInst
                                             File fch = new File("./output/ishare/"+date+"/"+cell.text()+".csv");
                                             sname = cell.text();
                                             System.out.println(sname);
+                                            String rsname = sname.replaceAll("[-+.^:,]","");
                                             writer1 = new FileWriter("./output/ishare/"+date+"/"+sname+".csv",true);
+                                            
+                                            try{
+                                                stmt.executeUpdate("CREATE TABLE "+rsname+"(prevc float(10,2), open float(10,2), "
+                                                    + "price float(10,2), dayh float(10,2), dayl float(10,2), pe float(4,2), "
+                                                    + "52wkh float(10,2), 52wkl float(10,2), volume int(15), "
+                                                    + "avol int(8), bsize float(10,2), asks float(10,2), mktcap varchar(20), pchng float(3,2));");
+                                                        }
+                                            catch(SQLException e){System.out.println(e);
+                                            }finally{
+                                                //stmt.close();
+                                            }
                                             if(!fch.exists()){
                                                 fch.createNewFile();
                                                 //writer1.write(cell.text().replace(",","").concat(","));
@@ -198,7 +201,7 @@ static String date = (new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInst
 				}
 				writer.write("\n");
                                // writer2.close();
-			}
+			}stmt.close();
 			writer.close();
                         
 		}}
@@ -212,4 +215,12 @@ static String date = (new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInst
           
           
       }
+      public static void main(String[] args) throws Exception {            
+               Marketshare mkt = new Marketshare();
+               WebClient webClient = new WebClient(BrowserVersion.FIREFOX_38); //Initiate a WebClient variable.  
+               webClient = mkt.tremorLogin(webClient);
+               mkt.GenFile(webClient);
+             
+        
+    }
 }
