@@ -18,6 +18,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;  
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 //jsoup lib
 import org.jsoup.Jsoup;  
 import org.jsoup.nodes.Document;
@@ -134,37 +135,39 @@ static String date = (new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInst
 						writer.write(cellh.text().replace(",","").concat(","));
 					}
 				}String sname="";
-                                int col=0;
+                                int col=0;FileWriter writer1 = null;
 				for ( Element cell : tds){
 					writer.write(cell.text().replace(",","").concat(","));
                                         col++;
                                         //FileWriter writer2 = new FileWriter("./output/ishare/"+date+"/"+sname+".csv");
                                         try{
                                             if(col==1){
-                                            FileWriter writer1 = new FileWriter("./output/ishare/"+date+"/"+cell.text()+".csv");
                                             File fch = new File("./output/ishare/"+date+"/"+cell.text()+".csv");
                                             sname = cell.text();
                                             System.out.println(sname);
+                                            writer1 = new FileWriter("./output/ishare/"+date+"/"+sname+".csv",true);
                                             if(!fch.exists()){
                                                 fch.createNewFile();
                                                 //writer1.write(cell.text().replace(",","").concat(","));
                                             }                                          
                                             }
+                                            else if(col==16){
+                                                writer1 = new FileWriter("./output/ishare/"+date+"/"+sname+".csv",true);
+                                                writer1.write("\n");
+                                                writer1.flush();
+                                                writer1.close();                                               
+                                                
+                                            }
                                             else{
-                                               try{
-                                                   String path="./output/ishare/"+date+"/"+sname+".csv";
-                                                FileWriter writer2 = new FileWriter(path,true);
-                                               System.out.println("else");
-                                               System.out.println(sname);
-                                               System.out.println(cell.text());
-                                               writer2.append(cell.text().replace(",","").concat(","));
-                                               writer2.close();
-                                               }
-                                               catch(Exception e)
-                                               {
-                                                 System.out.println(e);  
-                                               }
-                                            }//writer2.write("\n");
+                                                try{
+                                                    writer1 = new FileWriter("./output/ishare/"+date+"/"+sname+".csv",true);
+                                                writer1.write(cell.text().toString()+"\t");
+                                                writer1.flush();}
+                                                catch(Exception e){System.out.println("Error");                                                
+                                                }
+                                                finally{writer1.close();}
+                                            }
+                                            
                                             
                                         }
                                         catch(Exception e){
