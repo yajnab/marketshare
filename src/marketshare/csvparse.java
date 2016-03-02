@@ -8,8 +8,6 @@ package marketshare;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,18 +23,18 @@ import org.jsoup.select.Elements;
  */
 public class csvparse {
     
-    Connection con = null;
+    //Connection con = null;
     static String date = (new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime()));
-    public csvparse() throws SQLException{
+    /*public csvparse() throws SQLException{
         initDatabase();        
     }
-    public final void initDatabase() throws SQLException{
+    /*public final void initDatabase() throws SQLException{
         try{
           Class.forName("com.mysql.jdbc.Driver");
           con =(Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/marketshare?zeroDateTimeBehavior=convertToNull","yajnab","petrol123");           
         }
         catch(ClassNotFoundException | SQLException e){System.out.println(e);}
-    }
+    }*/
     
     public static void main(String args[]) throws SQLException{
         Marketshare ms = new Marketshare();
