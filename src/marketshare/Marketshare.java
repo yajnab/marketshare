@@ -33,7 +33,7 @@ public class Marketshare {
                login lgn = new login();
                webClient = lgn.tremorLogin(webClient);               
                new shareread(webClient).start();
-               new sharewrite().run();
+               new sharewrite().start();
         
     }
 }

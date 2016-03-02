@@ -10,7 +10,7 @@ package marketshare;
  *
  * @author yajnavalkya
  */
-public class sharewrite {
+public class sharewrite extends Thread{
 
     Marketshare ms;genFile gf;
     public sharewrite(){
@@ -24,8 +24,13 @@ public class sharewrite {
                 while (true) {
                     ms.sem.acquire(1);
                     ms.mutex.acquire();
-                    String a = ms.list.removeFirst().toString();
-                    gf.GenFile(a);
+                    //String a = Marketshare.list.removeFirst().toString();
+                    //System.out.println(a);
+                    /*try{
+                        gf.GenFile(a);
+                    }catch(Exception e){
+                        System.out.println("Error sending to genfile");
+                    }*/
                     System.out.println("Consumer read");
                     ms.mutex.release();
                 }
