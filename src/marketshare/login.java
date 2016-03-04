@@ -22,6 +22,7 @@ public class login {
     {
         webClient.getOptions().setJavaScriptEnabled(false); int netflag=1; 
         try{
+        try{
         final HtmlPage currentPage = webClient.getPage("https://login.yahoo.com/");}
         catch(Exception e){netflag=0;
         System.out.println("TICT net failure");}//Load page at the STRING address.
@@ -40,6 +41,10 @@ public class login {
         HtmlPage src=htmlElement.click();       
         return webClient;
         }
+        }
+        catch (Exception x) {
+                x.printStackTrace();
+            }
     return webClient;
     }
 }

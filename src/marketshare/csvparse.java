@@ -37,7 +37,7 @@ public class csvparse {
     }*/
     
     public static void main(String args[]) throws SQLException{
-        Marketshare ms = new Marketshare();
+        //Marketshare ms = new Marketshare();
     }
     public final void createcsv(String content)
       {/*Statement stmt= null;
