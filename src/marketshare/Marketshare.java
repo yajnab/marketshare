@@ -79,13 +79,15 @@ public class Marketshare {
         return true;
         return false;
     }
-         public void remove_item()
+         public void remove_item() throws Exception
         {
-              if (!(qs == 0)) {
+         if (!(qs == 0)) {
+             msclient mc =new msclient();
+             mc.connect(buffer[fp]);
+         //System.out.println(buffer[fp]);
          qs--;
          fp = (fp + 1)%maxsize;
-        // return buffer[fp];
-        System.out.println(buffer[fp]);
+         // return buffer[fp];       
          System.out.println("removed");
       }
       else {
