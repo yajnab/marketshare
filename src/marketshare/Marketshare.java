@@ -14,7 +14,10 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebResponse;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.LinkedList;
@@ -27,6 +30,7 @@ public class Marketshare {
      int fp=0;     
      int rp=0;
      int qs=0;
+     
      
     
     private class shareproducer extends Thread{ // process thread for i
@@ -71,9 +75,8 @@ public class Marketshare {
             }
        
         }
-    private class shareconsumer extends Thread{ // process thread for j
-        
-         public boolean buffer_empty(){
+    private class shareconsumer extends Thread{         
+        public boolean buffer_empty(){
              
         if(qs == 0)
         return true;
@@ -82,8 +85,17 @@ public class Marketshare {
          public void remove_item() throws Exception
         {
          if (!(qs == 0)) {
-             msclient mc =new msclient();
-             mc.connect(buffer[fp]);
+             try {System.out.println("Connected");
+             Socket clientSocket = new Socket("cubie", 6789);
+             OutputStreamWriter outToServer = new OutputStreamWriter(clientSocket.getOutputStream());
+            //outToServer.writeInt(buffer[fp].length());
+            outToServer.write(buffer[fp]+"\\s");
+            outToServer.flush();
+            System.out.println(buffer[fp]);
+            clientSocket.close();
+        }catch(Exception e){
+            System.out.println(e);
+        }
          //System.out.println(buffer[fp]);
          qs--;
          fp = (fp + 1)%maxsize;
