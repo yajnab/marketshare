@@ -36,8 +36,8 @@ public class portsub {
 
     public void fetcher() throws IOException {
         File file = new File("list.csv");
-        String[] slistn = new String[10];
-        Double[] slistv = new Double[10];
+        String[] slistn = new String[11];
+        Double[] slistv = new Double[11];
         for (int j = 0; j < 10; j++) {
             slistn[j] = "";
             slistv[j] = Double.NEGATIVE_INFINITY;
@@ -120,33 +120,28 @@ public class portsub {
         //String test_share_name="demo";     
         double percent_change = (max - min) / ((max + min) / 2);
 
-        int i = 0;
-
-        while ((i < 9) && (percent_change > slistv[i + 1])) {
-            
-            slistv[i] = slistv[i + 1];
-            slistn[i] = slistn[i + 1];
-            i++;
-        }
-        slistn[i] = sname;
-        slistv[i] = percent_change;
-        for(int ik=0; ik < slistv.length; ik++){
-                        for(int z=1; z < (slistv.length-ik); z++){
-                               
-                                if(slistv[z-1] > slistv[z]){
-                                        //swap the elements!
-                                        double temp = slistv[z-1];
-                                        String temps = slistn[z-1];
-                                        slistv[z-1] = slistv[z];
-                                        slistn[z-1] = slistn[z];
-                                        slistv[z] = temp;
-                                        slistn[z] = temps;
-                                }
-                               
-                        }
-                }
-       
         
+        slistv[10]=percent_change;
+        slistn[10]= sname;
+        
+        for(int i=0;i<10;i++){
+         int c=i+1;double k;String sk;
+         for(int j=0;j<10-i;j++)
+         {
+             if(slistv[i]<slistv[c])
+             {
+                 //For Value
+                 k=slistv[c];
+                 slistv[c]=slistv[i];
+                 slistv[i]=k;
+                 //For String
+                 sk=slistn[c];
+                 slistn[c]=slistn[i];
+                 slistn[i]=sk;
+                }
+                c++;
+            }
+        }   
         for (int j = 0; j < 10; j++) {
             System.out.print("name  "+slistn[j]+"\t");
             System.out.println("value  "+slistv[j]);           

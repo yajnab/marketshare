@@ -2,3 +2,5 @@
 /dist/*.jar
 /output/
 /dist/
+*.csv
+/*/*.csv
