@@ -24,35 +24,8 @@ import org.jsoup.select.Elements;
 public class sfetch {
     public static void main(String args[]) throws IOException, InterruptedException
     {
-    String link = "http://money.rediff.com/companies/nseall/";
-    WebClient webc = new WebClient(BrowserVersion.FIREFOX_38);
-    int i=0,k=0;
-    for(i=0;i<2221;i=i+50)
-    {k=i;
-        if(i<2121){String flink = new String(link+(i+1)+"-"+(i+50)+"");
-        //String flink = new String(link+(i)+"-"+(i)+"");
-        System.out.println(flink);
-        Page page=webc.getPage(flink);
-        WebResponse ws =page.getWebResponse();
-        String content = page.getWebResponse().getContentAsString();
-        //System.out.println(content);
         sfetch sf = new sfetch();
-        sf.csvparse(content);
-    }}int j;
-    System.out.println(k);
-    Thread.sleep(5000);
-    
-    for(j=k+1;j<=2221;j++){
-        //String flink = new String(link+(j+1)+"-"+(j+200)+"");
-        String flink = new String(link+(j)+"-"+(j)+"");
-        System.out.println(flink);
-        Page page=webc.getPage(flink);
-        WebResponse ws =page.getWebResponse();
-        String content = page.getWebResponse().getContentAsString();
-        //System.out.println(content);
-        sfetch sf = new sfetch();
-        sf.csvparse(content);
-    }i=j;System.out.println(i);
+        sf.main2();
     }
     public void csvparse(String content) throws IOException{
        	Document doc = Jsoup.parse(content);
@@ -81,5 +54,36 @@ public class sfetch {
 	} catch (IOException e) {
 		e.getStackTrace();
 	}
+    }
+    public void main2() throws IOException, InterruptedException{
+         String link = "http://money.rediff.com/companies/nseall/";
+    WebClient webc = new WebClient(BrowserVersion.FIREFOX_38);
+    int i=0,k=0;
+    for(i=0;i<2221;i=i+50)
+    {k=i;
+        if(i<2121){String flink = new String(link+(i+1)+"-"+(i+50)+"");
+        //String flink = new String(link+(i)+"-"+(i)+"");
+        System.out.println(flink);
+        Page page=webc.getPage(flink);
+        WebResponse ws =page.getWebResponse();
+        String content = page.getWebResponse().getContentAsString();
+        //System.out.println(content);
+        sfetch sf = new sfetch();
+        sf.csvparse(content);
+    }}int j;
+    System.out.println(k);
+    Thread.sleep(5000);
+    
+    for(j=k+1;j<=2221;j++){
+        //String flink = new String(link+(j+1)+"-"+(j+200)+"");
+        String flink = new String(link+(j)+"-"+(j)+"");
+        System.out.println(flink);
+        Page page=webc.getPage(flink);
+        WebResponse ws =page.getWebResponse();
+        String content = page.getWebResponse().getContentAsString();
+        //System.out.println(content);
+        sfetch sf = new sfetch();
+        sf.csvparse(content);
+    }i=j;System.out.println(i);
     }
 }

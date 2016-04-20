@@ -8,6 +8,7 @@ package marketshare;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
@@ -15,7 +16,7 @@ import java.io.InputStreamReader;
  * @author yajnavalkya
  */
 public class Marketmain {
-    public static void main(String args[]){
+    public static void main(String args[]) throws IOException, InterruptedException{
         WebClient webClient = new WebClient(BrowserVersion.FIREFOX_38); //Initiate a WebClient variable.          
         try {
             
@@ -29,8 +30,29 @@ public class Marketmain {
          } catch (Exception x) {
             x.printStackTrace();
         }
-        portsub ps = new portsub();
+       
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Do u know to make new list(y)");
+        char c = br.readLine().charAt(0);
+        switch(c){
+            case 'y':
+            {
+                sfetch sf = new sfetch();
+                sf.main2();
+                break;
+            }            
+        }
+        System.out.println("Do u know to Get 10 top/bottom list(y)");
+        char c1 = br.readLine().charAt(0);
+        switch(c1){
+            case 'y':
+            {
+                portsub ps = new portsub();
+                ps.fetcher();
+                break;
+            }            
+        }
+        
         
     }
         
