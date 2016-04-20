@@ -5,13 +5,33 @@
  */
 package marketshare;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 /**
  *
  * @author yajnavalkya
  */
 public class Marketmain {
     public static void main(String args[]){
-        System.out.println("");
+        WebClient webClient = new WebClient(BrowserVersion.FIREFOX_38); //Initiate a WebClient variable.          
+        try {
+            
+            redifflogin lgn = new redifflogin();
+            try {
+                System.out.println("before login");
+                webClient = lgn.tremorLogin(webClient);
+            } catch (Exception x) {
+                x.printStackTrace();
+            }
+         } catch (Exception x) {
+            x.printStackTrace();
+        }
+        portsub ps = new portsub();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
     }
-    
-}
+        
+    }
