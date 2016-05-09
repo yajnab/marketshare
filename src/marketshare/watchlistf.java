@@ -17,11 +17,13 @@ import java.io.IOException;
  */
 public class watchlistf {
     public void wfetcher(WebClient wc) throws IOException{
+        for(int i=0;i<20;i++){
         String link = "http://portfolio.rediff.com/watchlist?src=top_nav";
         Page page=  wc.getPage(link);
         WebResponse ws =page.getWebResponse();
         String content = page.getWebResponse().getContentAsString();
         csvparse scv = new csvparse();
         scv.createcsv(content);
+    }
     }
 }

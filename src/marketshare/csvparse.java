@@ -51,14 +51,27 @@ public class csvparse {
 	//Document doc = Jsoup.parse(input, "UTF-8", "http://example.com/");
         Document doc = Jsoup.parse(content);        
         File file = new File("./output/"+date);
-        //String fname =  Long.toString(file.listFiles().length +1);
+        if(!file.isDirectory()){
+            File outp = new File("./output");
+                if(outp.isDirectory()){
+                    File dir = new File("./output/"+date);
+                    dir.mkdir();
+                    }
+                else{
+                    outp.mkdir();
+                    File dir = new File("./output/"+date);
+                    dir.mkdir();}}
+        String fname =  Long.toString(file.listFiles().length +1);
+        
+        /*This creates the initial date wise output directory*/   
+        
         
         
          
 	//Document doc = Jsoup.parse(input);
 	try {
-		FileWriter writer = new FileWriter("./dataout.csv");
-                //FileWriter writer = new FileWriter("./output/"+date+"/stockdata_"+fname+".csv");
+		//FileWriter writer = new FileWriter("./dataout.csv");
+                FileWriter writer = new FileWriter("./output/"+date+"/stockdata_"+fname+".csv");
 		try{for (Element table : doc.select("table#stocks")) {
 			for (Element row : table.select("tr")) {
 				
@@ -82,7 +95,7 @@ public class csvparse {
                         }}
         catch(Exception e){
            e.printStackTrace();
-        }}
+        }writer.close();}
                                         catch(Exception e){
                                             System.out.println("yajnab"+e);
                                         }
