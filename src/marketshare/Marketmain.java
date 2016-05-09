@@ -31,9 +31,13 @@ public class Marketmain {
             x.printStackTrace();
         }
        
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Do u know to make new list(y)");
-        char c = br.readLine().charAt(0);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        String inputLine;
+        System.out.println("Do u know to make new list(y/n)");
+        char c='n';
+        if((inputLine = bufferedReader.readLine().trim()) == null){} else {
+            c = inputLine.charAt(0);
+        }
         switch(c){
             case 'y':
             {
@@ -42,13 +46,25 @@ public class Marketmain {
                 break;
             }            
         }
-        System.out.println("Do u know to Get 10 top/bottom list(y)");
-        char c1 = br.readLine().charAt(0);
+        System.out.println("Do u know to Get 10 top/bottom list(y/n)");
+        char c1='n';
+        if((inputLine = bufferedReader.readLine()) != null){c1 = inputLine.charAt(0);}
         switch(c1){
             case 'y':
             {
                 portsub ps = new portsub();
                 ps.fetcher();
+                break;
+            }            
+        }
+        System.out.println("Do u want to scrape from watchlist(y/n)");
+        char c2='n';
+        if((inputLine = bufferedReader.readLine()) != null){c2 = inputLine.charAt(0);}
+        switch(c2){
+            case 'y':
+            {
+                watchlistf wl = new watchlistf();
+                wl.wfetcher(webClient);
                 break;
             }            
         }

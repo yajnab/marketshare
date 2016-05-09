@@ -20,6 +20,8 @@ public class watchlistf {
         String link = "http://portfolio.rediff.com/watchlist?src=top_nav";
         Page page=  wc.getPage(link);
         WebResponse ws =page.getWebResponse();
-        String content = page.getWebResponse().getContentAsString();        
+        String content = page.getWebResponse().getContentAsString();
+        csvparse scv = new csvparse();
+        scv.createcsv(content);
     }
 }

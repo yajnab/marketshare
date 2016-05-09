@@ -42,25 +42,11 @@ public class redifflogin {
                 password.setValueAttribute(uPwd); //Set value for password
                 HtmlElement htmlElement = currentPage.getFirstByXPath("//*[@name=\"proceed\"]");                
                 HtmlPage src = htmlElement.click();}
-                catch(Exception e){System.out.println(e);}
-                
+                catch(Exception e){System.out.println(e);}                
                 WebResponse response1 = currentPage.getWebResponse();
                 String content2 = response1.getContentAsString();
-                final HtmlPage page2;
-                Page page = webClient.getPage("http://portfolio.rediff.com/watchlist?src=top_nav");                    
-                WebResponse ws = page.getWebResponse();
-                    String content = page.getWebResponse().getContentAsString();
-                    try{
-                        FileWriter fw = new FileWriter("rediff.html",true);                                        
-                        fw.write(content);
-                        fw.flush();
-                        fw.close();}
-                    catch(Exception e){
-                        System.out.println(e);
-                    }
-                return webClient;
-            }
-        } catch (Exception x) {
+               
+            }}catch (Exception x) {
             x.printStackTrace();
         }
         return webClient;
