@@ -23,15 +23,18 @@ public class watchlistf {
         DateFormat df = new SimpleDateFormat("HHmmss");
         Date dateobj = new Date();
         String datestr =(df.format(dateobj));
-        int timestr = Integer.parseInt(datestr);
+        int timenow = Integer.parseInt(datestr);
+        int timestr = 93000; //Sharemarket values starts updating from 9:30AM IST
         int timeend = 183000; //Sharemarket values stops updating at 6:30PM IST
-        for(int i=timestr;i<132825;i++){
+        if(timestr<=timenow){
+        for(int i=timenow;i<132825;i++){
         String link = "http://portfolio.rediff.com/watchlist?src=top_nav";
         Page page=  wc.getPage(link);
         WebResponse ws =page.getWebResponse();
         String content = page.getWebResponse().getContentAsString();
         csvparse scv = new csvparse();
         scv.createcsv(content);
-    }
+            }
+        }
     }
 }
