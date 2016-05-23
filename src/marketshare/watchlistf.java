@@ -10,6 +10,9 @@ import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebResponse;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -17,7 +20,12 @@ import java.io.IOException;
  */
 public class watchlistf {
     public void wfetcher(WebClient wc) throws IOException{
-        for(int i=0;i<20;i++){
+        DateFormat df = new SimpleDateFormat("HHmmss");
+        Date dateobj = new Date();
+        String datestr =(df.format(dateobj));
+        int timestr = Integer.parseInt(datestr);
+        int timeend = 183000; //Sharemarket values stops updating at 6:30PM IST
+        for(int i=timestr;i<132825;i++){
         String link = "http://portfolio.rediff.com/watchlist?src=top_nav";
         Page page=  wc.getPage(link);
         WebResponse ws =page.getWebResponse();
